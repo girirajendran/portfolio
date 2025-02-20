@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ name }} - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">{{ name }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="nav-links ms-auto">
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#education">Education</a>
+                    <a href="#contact">Contact</a>
+                    <button class="theme-toggle nav-theme-toggle" id="theme-toggle" title="Toggle dark/light mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="display-4 fw-bold">{{ name }}</h1>
+                    <h2 class="title-gradient">{{ title }}</h2>
+                    <p class="lead mt-4">{{ summary }}</p>
+                    <div class="hero-buttons mt-4">
+                        <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                        <a href="https://{{ contact.linkedin }}" class="btn btn-outline-primary" target="_blank">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="profile-container">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}"
+                             alt="Profile Picture" 
+                             class="profile-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Skills & Expertise</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="skills-grid">
+                        {% for skill in skills %}
+                        <div class="skill-item">
+                            <span>{{ skill }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Certifications</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="cert-grid">
+                        {% for cert in certifications %}
+                        <div class="cert-item">
+                            <i class="fas fa-certificate"></i>
+                            <h4>{{ cert }}</h4>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                {% for exp in experience %}
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>{{ exp.role }}</h3>
+                        <h4>{{ exp.company }}</h4>
+                        <p class="duration">{{ exp.duration }}</p>
+                        <div class="description">{{ exp.description }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div class="row">
+                {% for edu in education %}
+                <div class="col-md-6">
+                    <div class="education-card">
+                        <h3>{{ edu.degree }}</h3>
+                        <h4>{{ edu.school }}</h4>
+                        <p>{{ edu.year }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <p>{{ contact.email }}</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <p>{{ contact.phone }}</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>{{ contact.location }}</p>
+                        </div>
+                    </div>
+                    <div class="social-links mt-4">
+                        <a href="https://{{ contact.linkedin }}" class="social-btn linkedin" target="_blank">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://{{ contact.github }}" class="social-btn github" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            
+            // Add animation class to body
+            document.body.classList.add('theme-transition');
+            setTimeout(() => {
+                document.body.classList.remove('theme-transition');
+            }, 500);
+            
+            // Animate the toggle button
+            themeToggle.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                themeToggle.style.transform = 'scale(1)';
+            }, 200);
+        });
+        
+        function updateThemeIcon(theme) {
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        
+        // Check system preference on load
+        if (!localStorage.getItem('theme')) {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = prefersDark ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            updateThemeIcon(theme);
+        }
+    </script>
+</body>
+</html> 
